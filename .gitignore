@@ -1,0 +1,24 @@
+# Environnement Python
+.venv/
+__pycache__/
+*.pyc
+
+# Cache des tests et outils
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Configuration sensible
+.env
+.env.*
+
+# Donnees et modeles generes
+/data/*.csv
+/models/*.joblib
+
+# Rapports generes
+/reports/*.json
+
+# Conserver la baseline de reference
+!/reports/baseline.json
