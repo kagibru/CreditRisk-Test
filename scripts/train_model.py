@@ -32,9 +32,13 @@ def main():
     predictions = model.predict(X_val)
     metrics = {"recall": float(recall_score(y_val, predictions, zero_division=0)), "f1": float(f1_score(y_val, predictions, zero_division=0)), "n_validation": len(y_val), "seed": 42, "synthetic": True}
     (ROOT / "models").mkdir(exist_ok=True)
+
     (ROOT / "reports").mkdir(exist_ok=True)
     joblib.dump(model, ROOT / "models" / "credit_model.joblib")
-    (ROOT / "reports" / "baseline.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+
+    metrics_path = ROOT / "reports" / "current_metrics.json"
+    metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8",)
+
     print("Modele enregistre ; metriques :", metrics)
 
 
