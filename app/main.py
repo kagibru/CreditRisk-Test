@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
-from app.validation import CreditApplication
-from app.preprocessing import to_features
+
 from app.prediction import get_model, predict_probability
+from app.preprocessing import to_features
+from app.validation import CreditApplication
 
 app = FastAPI(title="CreditRisk-Test", version="1.0.0")
 

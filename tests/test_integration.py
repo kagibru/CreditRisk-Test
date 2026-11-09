@@ -7,9 +7,9 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
+from app.prediction import get_model, predict_probability
 from app.preprocessing import to_features
 from app.validation import CreditApplication
-from app.prediction import get_model, predict_probability
 
 client = TestClient(app)
 

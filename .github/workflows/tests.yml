@@ -1,17 +1,51 @@
-name: Tests
+
+name: CreditRisk - Tests et Qualite
+
 on:
   push:
   pull_request:
   workflow_dispatch:
+
 jobs:
-  test:
+  tests:
+    name: Tests Python et controle qualite
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - run: python -m pip install -r requirements.txt
-      - run: python scripts/train_model.py
-      - run: ruff check app scripts tests
-      - run: pytest --cov=app --cov-report=term-missing
+          python-version: "3.12"
+          cache: pip
+
+      - name: Installer les dependances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Entrainer le modele synthetique
+        run: python scripts/train_model.py
+
+      - name: Verifier le style avec Ruff
+        run: ruff check app scripts tests
+
+      - name: Executer les tests et mesurer la couverture
+        run: |
+          python -m pytest tests/ -v \
+            --cov=app \
+            --cov-report=term-missing \
+            --cov-report=xml:reports/coverage.xml \
+            --junitxml=reports/pytest_results.xml
+
+      - name: Archiver les rapports de tests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: creditrisk-test-reports
+          path: |
+            reports/pytest_results.xml
+            reports/coverage.xml
+          if-no-files-found: warn

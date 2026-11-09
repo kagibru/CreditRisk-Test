@@ -1,5 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 import math
+
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator
 
 
 class CreditApplication(BaseModel):
@@ -14,7 +15,7 @@ class CreditApplication(BaseModel):
     @classmethod
     def numeric_only(cls, value):
         if isinstance(value, bool) or not isinstance(value, (int, float)):
-            raise ValueError("Une valeur numerique est requise")
+            raise ValueError("Une valeur numerique est requise")  # noqa: TRY004
         if not math.isfinite(value):
             raise ValueError("Valeur non finie interdite")
         return value
