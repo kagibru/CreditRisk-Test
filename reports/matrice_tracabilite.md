@@ -21,6 +21,8 @@
 | EX-17 | Exécution automatisée | GitHub Actions, run 42604536298 | Réussi |
 | EX-18 | Couverture du code | Rapport pytest-cov | 91 % |
 | EX-19 | Comparaison réelle avec une baseline | À implémenter | Non vérifié |
-| EX-20 | Tests sous charge concurrente | À réaliser | Non vérifié |
+| EX-20 | Tests sous charge concurrente | Locust : `reports/load_5_stats.csv`, `load_20_stats.csv`, `load_50_stats.csv`, `load_100_stats.csv` ; `reports/rapport_performance_creditrisk.md` | Réussi pour les scénarios locaux : 10 418 requêtes, 0 échec, P95 de 20 à 21 ms |
+
+**Bilan :** 19 exigences disposent d’une preuve de vérification ; EX-19 reste non vérifiée. La couverture de 91 % correspond au résultat documenté. Les tests de charge sont limités aux scénarios locaux décrits dans le rapport de performance.
 
 **Note :** cette matrice relie les exigences techniques retenues aux tests réalisés. Elle devra être confrontée à l'énoncé complet avant la remise définitive.
