@@ -1,8 +1,8 @@
 # PLAN DE TEST — CreditRisk-Test
 
 **Projet :** Système IA de prédiction du risque de crédit  
-**Version :** 1.1  
-**Date :** 09 novembre 2026  
+**Version :** 1.2  
+**Date :** 10 novembre 2026  
 **Environnement :** Windows 11 / Python 3.13.2, GitHub Actions / Python 3.12
 
 ## 1. Objectif
@@ -35,17 +35,17 @@ L'intégration continue repose sur GitHub Actions et comprend l'installation des
 
 | Catégorie | Tests réussis | Échecs |
 |---|---:|---:|
-| Tests fonctionnels | 17 | 0 |
+| Tests fonctionnels | 41 | 0 |
 | Tests d'intégration | 11 | 0 |
 | Tests de robustesse | 18 | 0 |
 | Tests de non-régression | 7 | 0 |
 | Tests de performance | 2 | 0 |
 | Test des métriques du modèle | 1 | 0 |
-| **Total** | **56** | **0** |
+| **Total** | **80** | **0** |
 
-Couverture locale documentée : **91 %**. La dernière exécution Pytest sous WSL a confirmé **56 tests réussis**, sans échec (un avertissement de dépréciation non bloquant).
+Couverture locale documentée : **91 %**. La dernière exécution Pytest sous Windows (Python 3.13.2) a confirmé **80 tests réussis**, sans échec, avec **un avertissement non bloquant**. Les 24 nouveaux scénarios fonctionnels portent sur les valeurs invalides et les limites autorisées des champs.
 
-L'exécution GitHub Actions n° 42604536298 s'est terminée avec succès après correction des anomalies Ruff.
+L'exécution GitHub Actions n° 42604536298 s'est terminée avec succès après correction des anomalies Ruff. Une démonstration contrôlée d'échec Pytest a également confirmé le blocage du pipeline (run n° 42700994044). Ces exécutions sont antérieures à l'ajout des 24 scénarios : elles ne constituent donc pas une preuve d'exécution CI de la suite à 80 tests.
 
 ## 5. Performances observées
 
@@ -88,7 +88,7 @@ Ces critères techniques ne suffisent pas à autoriser l'utilisation réelle du 
 
 Le modèle utilise des données synthétiques. Son rappel de référence est de 14,65 % et son F1-score de 24,73 %.
 
-Les tests de non-régression actuels vérifient la détection de dégradations simulées, mais ne recalculent pas encore les métriques d'une nouvelle version sur un jeu de validation figé.
+Les contrôles de non-régression comparent les métriques du modèle courant à la baseline enregistrée et vérifient la détection de dégradations simulées, avec une tolérance absolue de 0,02 pour le rappel et le F1-score. La comparaison de deux versions distinctes du modèle, évaluées sur le même jeu de validation figé, n'est pas démontrée.
 
 Aucune validation sur des données réelles représentatives, ni analyse complète des biais, de la calibration ou de la dérive des données, n'a été effectuée. Les essais Locust ne couvrent ni l’endurance, ni les charges plus élevées, ni une infrastructure représentative de production.
 
