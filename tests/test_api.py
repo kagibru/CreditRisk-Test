@@ -103,3 +103,66 @@ def test_valeur_extreme():
         probability = response.json()["probabilite_defaut"]
         assert math.isfinite(probability)
         assert 0 <= probability <= 1
+
+
+# Tests complémentaires pour la validation des champs numériques
+
+@pytest.mark.parametrize(
+    "age",
+    [17, 101, -1, 18.5, "35", True],
+)
+def test_age_invalide(age):
+    data = VALID_DATA.copy()
+    data["age"] = age
+
+    response = client.post("/predict", json=data)
+    assert response.status_code == 422
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("revenu_mensuel", 0),
+        ("revenu_mensuel", -1000),
+        ("revenu_mensuel", 100_000_001),
+        ("montant_credit", 1_000_000_001),
+        ("duree_mois", 0),
+        ("duree_mois", 361),
+        ("anciennete_activite", -1),
+        ("anciennete_activite", 81),
+    ],
+)
+def test_valeurs_hors_limites_complementaires(field, value):
+    data = VALID_DATA.copy()
+    data[field] = value
+
+    response = client.post("/predict", json=data)
+    assert response.status_code == 422
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("age", 18),
+        ("age", 100),
+        ("revenu_mensuel", 0.01),
+        ("revenu_mensuel", 100_000_000),
+        ("montant_credit", 0.01),
+        ("montant_credit", 1_000_000_000),
+        ("duree_mois", 1),
+        ("duree_mois", 360),
+        ("anciennete_activite", 0),
+        ("anciennete_activite", 80),
+    ],
+)
+def test_valeurs_limites_valides(field, value):
+    data = VALID_DATA.copy()
+    data[field] = value
+
+    response = client.post("/predict", json=data)
+
+    assert response.status_code == 200
+
+    probability = response.json()["probabilite_defaut"]
+    assert math.isfinite(probability)
+    assert 0 <= probability <= 1
