@@ -103,7 +103,7 @@ Autres endpoints :
 
 ## 7. Stratégie de test
 
-Le projet comprend 56 cas de test automatisés couvrant :
+Le projet comprend **80 tests automatisés**, dont **41 tests fonctionnels**, couvrant :
 
 | Catégorie | Fichier |
 |---|---|
@@ -122,7 +122,7 @@ python -m pytest tests/ -v
 
 Résultat de la dernière validation locale :
 
-**56 tests réussis, 0 échec.**
+**80 tests réussis, 0 échec** (dont 24 scénarios supplémentaires de validation aux limites).
 
 ### Analyse statique
 
@@ -138,7 +138,7 @@ Résultat : `All checks passed!`
 python -m pytest tests/ --cov=app --cov-report=term-missing
 ```
 
-Couverture documentée : **91 %**.
+Couverture documentée : **91 %** (dernière exécution locale de la suite à 80 tests).
 
 ## 8. Tests de non-régression
 
@@ -162,7 +162,7 @@ Tolérance maximale autorisée : **2 points de pourcentage de dégradation par m
 
 Les huit tests de non-régression ont réussi.
 
-La comparaison entre deux versions distinctes du modèle reste non démontrée.
+La comparaison automatique des métriques du modèle courant à la baseline est vérifiée ; en revanche, la comparaison expérimentale de deux versions distinctes du modèle sur un même jeu de validation reste non démontrée.
 
 ## 9. Tests de performance
 
